@@ -24,38 +24,32 @@ import java.util.stream.Collectors;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static sample.application.api.shared.controller.RestExceptionHandler.newConflictException;
 
-/**
- * Classe base para a implementação de {@link RestController} que fornecem todas as operações CRUD
- * e podem trabalhar tanto com entidades (classes model) quanto com DTOs.
- * Se um DTO for passado no parâmetro D, os métodos {@link #insert(Object)}
- * e {@link #update(long, Object)} irão receber um DTO no lugar de uma entidade correspondente.
- *
- * <p>Cada classe filha deve incluir a anotação {@link RestController} e {@link RequestMapping}.</p>
- *
- * @param <T> tipo da entidade que o controller irá manipular
- * @param <D> tipo do DTO para a entidade entidade que o controller irá manipular.
- *            Se D for o mesmo tipo que T, o controller não irá trabalhar com DTOs nos métodos citados acima.
- * @param <R> tipo do repositório que acesso os dados da entidade no banco
- * @author Manoel Campos
- */
+/// Base class for implementing [RestController] that provide all CRUD operations
+/// and can work with both entities (model classes) and DTOs.
+/// If a DTO is passed in parameter D, the methods [#insert(Object)]
+/// and [#update(long,Object)] will receive a DTO instead of a corresponding entity.
+///
+/// Each child class must include the annotation [RestController] and [RequestMapping].
+///
+/// @param <T> type of the entity that the controller will handle
+/// @param <D> type of the DTO for the entity that the controller will handle.
+/// If D is the same type as T, the controller will not work with DTOs in the aforementioned methods.
+/// @param <R> type of the repository that accesses the entity data in the database
+/// @author Manoel Campos
 public abstract class AbstractController<T extends AbstractBaseModel, D, R extends EntityRepository<T>, S extends AbstractCrudService<T, R>> extends AbstractSearchController<T, R, S> {
-    /**
-     * Validador customizado para a entidade manipulada pelo controller.
-     * O validador é opcional, pois nem sempre é necessário
-     * realizar validações customizadas para a entidade.
-     * Se nenhuma classe validator para a entidade for definida, uma instância de {@link CustomValidator} é usada.
-     */
+    /// Custom validator for the entity handled by the controller.
+    /// The validator is optional, as it’s not always necessary
+    /// to perform custom validations for the entity.
+    /// If no validator class for the entity is defined, an instance of [CustomValidator] is used.
     @Autowired
     private CustomValidator<T> validator;
     private final Class<D> dtoClass;
 
-    /**
-     * Uma instância de DTORecord vazia, apenas para permitir chamar o método {@link DTORecord#fromModel(Object)}.
-     * Como a instanciação de tal objeto exige reflection, é feita a instanciação uma única
-     * vez no construtor do controller, para não penalizar o desempenho de endpoints que precisam dessa instância.
-     *
-     * @see #findDtoById(long)
-     */
+    /// An empty [DTORecord] instance, just to allow calling the [DTORecord#fromModel(Object)] method.
+    /// Since instantiating such an object requires reflection, the instantiation is done only once
+    /// in the controller's constructor, so as not to impact the performance of endpoints that need this instance.
+    ///
+    /// @see #findDtoById(long)
     @Nullable
     private final DTORecord<T> emptyDto;
 
@@ -87,9 +81,9 @@ public abstract class AbstractController<T extends AbstractBaseModel, D, R exten
         final T model = getService().findById(id).orElseThrow(() -> newNotFoundException(id));
 
         /*
-        Se o emptyDto for null, é porque o tipo genérico D é, na verdade, ume entity T.
-        Isto indica que o controller não trabalha com DTOs, mas somente com entidades.
-        Assim, fazer um cast de model (do tipo T) para D não irá funcionar (pois D é o mesmo tipo T).
+        If emptyDto is null, it means that the generic type `D` is actually an entity `T`.
+        This indicates that the controller does not work with DTOs, but only with entities.
+        Therefore, casting the model (of type `T`) to `D` will not work (since `D` is the same type `T`).
         */
         return ResponseEntity.ok((D) (emptyDto == null ? model : emptyDto.fromModel(model)));
     }
@@ -99,12 +93,10 @@ public abstract class AbstractController<T extends AbstractBaseModel, D, R exten
         return ResponseEntity.ok(getService().findAll());
     }
 
-    /**
-     * Insere um objeto como um novo registro no banco de dados.
-     *
-     * @param obj objeto que pode ser uma entidade do tipo T ou um DTORecord.
-     * @return
-     */
+    /// Inserts an object as a new record in the database.
+    ///
+    /// @param obj object that can be an entity of type T or a [DTORecord].
+    /// @return
     @PostMapping
     @Transactional
     public ResponseEntity<T> insert(@Valid @RequestBody D obj) {
@@ -120,18 +112,16 @@ public abstract class AbstractController<T extends AbstractBaseModel, D, R exten
         }
     }
 
-    /**
-     * Atualiza um registro no banco de dados a partir dos dados de um objeto.
-     *
-     * @param obj objeto que pode ser uma entidade do tipo T ou um DTORecord.
-     * @return
-     */
+    /// Updates a record in the database using data from an object.
+    ///
+    /// @param obj object that can be an entity of type T or a [DTORecord].
+    /// @return
     @PutMapping("{id}")
     @Transactional
     public void update(@Valid @PathVariable final long id, @Valid @RequestBody final D obj) {
         final T entity = getEntity(obj);
         if (!entity.isSameId(id)) {
-            final var msg = "O ID informado (%d) não corresponde com o ID do %s (%d)".formatted(id, getService().getEntityClassName(), entity.getId());
+            final var msg = "The provided ID (%d) does not match the %s ID (%d)".formatted(id, getService().getEntityClassName(), entity.getId());
             throw newConflictException(msg);
         }
 
@@ -144,14 +134,12 @@ public abstract class AbstractController<T extends AbstractBaseModel, D, R exten
         }
     }
 
-    /**
-     * Tenta converter um objeto D para o tipo genérico T que representa uma entidade gerenciada
-     * pelo service.
-     *
-     * @param obj objeto para tentar converter para uma entidade.
-     *            Tal objeto pode já ser uma entidade do tipo T ou um DTORecord.
-     * @return
-     */
+    /// Attempts to convert an object D to the generic type T, which represents an entity managed
+    /// by the service.
+    ///
+    /// @param obj object to try to convert to an entity.
+    /// Such an object may already be an entity of type T or a [DTORecord].
+    /// @return
     @SuppressWarnings("unchecked")
     private T getEntity(final D obj) {
         if (obj instanceof DTORecord)
@@ -161,8 +149,8 @@ public abstract class AbstractController<T extends AbstractBaseModel, D, R exten
             return (T) obj;
         } catch (final ClassCastException e) {
             throw new RuntimeException(
-                    "Os objetos gerenciados pelo %s devem ser do tipo T ou %s"
-                            .formatted(getClass().getSimpleName(), DTORecord.class.getSimpleName()), e);
+                    "The objects managed by %s must be of type T or %s"
+                    .formatted(getClass().getSimpleName(), DTORecord.class.getSimpleName()), e);
         }
     }
 
@@ -177,11 +165,9 @@ public abstract class AbstractController<T extends AbstractBaseModel, D, R exten
             throw new ResponseStatusException(CONFLICT, errorsStr);
     }
 
-    /**
-     * Cria um DTORecord vazio, apenas para permitir chamar o método {@link DTORecord#fromModel(Object)}
-     * para permitir criar posteriormente um DTO a partir de uma {@link BaseModel}.
-     * @return o DTORecord vazio ou null se o tipo genérico D não for um {@link DTORecord}.
-     */
+    /// Creates an empty [DTORecord], just to allow calling the method [DTORecord#fromModel(Object)]
+    /// to later create a DTO from a [BaseModel].
+    /// @return the empty DTORecord or null if the generic type D is not a [DTORecord].
     @SuppressWarnings("unchecked")
     @Nullable
     private DTORecord<T> newEmptyDtoRecord(){
@@ -192,13 +178,13 @@ public abstract class AbstractController<T extends AbstractBaseModel, D, R exten
             final var constructor = dtoClass.getDeclaredConstructor();
             return (DTORecord<T>)constructor.newInstance();
         } catch (InstantiationException e) {
-            throw new RuntimeException("Erro tentando instanciar %s".formatted(dtoClass.getName()), e);
+            throw new RuntimeException("Error trying to instantiate %s".formatted(dtoClass.getName()), e);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException("Erro tentando acessar o construtor de %s".formatted(dtoClass.getName()), e);
+            throw new RuntimeException("Error trying to access the constructor of %s".formatted(dtoClass.getName()), e);
         } catch (InvocationTargetException e) {
-            throw new RuntimeException("Exceção executando o construtor de %s".formatted(dtoClass.getName()), e);
+            throw new RuntimeException("Exception executing the constructor of %s".formatted(dtoClass.getName()), e);
         } catch (NoSuchMethodException e) {
-            throw new RuntimeException("Nenhum construtor sem parâmetros encontrado para o DTO " + dtoClass.getName(), e);
+            throw new RuntimeException("No parameterless constructor found for the " + dtoClass.getName(), e);
         }
     }
 }

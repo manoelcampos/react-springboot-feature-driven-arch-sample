@@ -7,34 +7,31 @@ import org.springframework.web.context.annotation.RequestScope;
 import sample.application.api.shared.model.AbstractBaseModel;
 import sample.application.api.shared.service.CrudService;
 
-/// Define um contrato para implementação de [Validator]s personalizados.
-/// É definida como uma classe concreta (no lugar de uma interface)
-/// apenas para permitir injeção de dependência de um validator para uma [AbstractBaseModel]
-/// específica, quando uma subclasse desta aqui não for criada,
-/// indicando que a entidade não possui validações customizadas.
+/// Defines a contract for implementing custom [Validator]s.
+/// It is defined as a concrete class (instead of an interface)
+/// just to allow dependency injection of a validator for a specific [AbstractBaseModel],
+/// when a subclass of this one is not created,
+/// indicating that the entity has no custom validations.
 ///
-/// Nestes casos, o Spring pode instanciar um objeto desta classe (já que ela é concreta).
-/// Com isto, não é preciso armazenar
-/// null em um objeto validator de um [CrudService]
-/// e assim não é preciso escrever verificações para evitar NullPointerExceptions.
-/// Mesmo que não exista uma classe para validar uma determinada entity,
-/// a classe service de tal entity terá uma instância de um validator padrão
-/// (mas que não realiza nenhuma validação personalizada).
+/// In these cases, Spring can instantiate an object of this class (since it is concrete).
+/// This way, there is no need to store
+/// null in a validator object of a [CrudService]
+/// and thus no need to write checks to avoid NullPointerExceptions.
+/// Even if there is no class to validate a specific entity,
+/// the service class of that entity will have an instance of a default validator
+/// (which does not perform any custom validation).
 ///
-/// **AVISO**: Subclasses concretas não devem ser criadas a partir desta classe,
-/// mas sim de [AbstractCustomValidator], pois tal classe fornecerá
-/// parte da implementação.
+/// **WARNING**: Concrete subclasses should not be created from this class,
+/// but rather from [AbstractCustomValidator], as that class will provide
+/// part of the implementation.
 ///
 /// @author Manoel Campos
 @Component @RequestScope
 public class CustomValidator<T extends AbstractBaseModel> implements Validator {
-    /**
-     * Indica qual o tipo de {@link AbstractBaseModel} este validator pode validar.
-     * @return
-     */
+    /// @return the type of [AbstractBaseModel] this validator can validate.
     @SuppressWarnings("unchecked")
     protected Class<T> getSupportedClass(){
-        // O método deve ser sobrescrito pelas subclasses para usar um tipo específico de entity.
+        // The method must be overridden by subclasses to use a specific type of entity.
         return  (Class<T>) AbstractBaseModel.class;
     }
 
@@ -45,6 +42,9 @@ public class CustomValidator<T extends AbstractBaseModel> implements Validator {
 
     @Override
     public void validate(final Object target, final Errors errors) {
-        // Implementação vazia que não realiza qualquer validação personalizada. Subclasses devem sobrescrever o método.
+        /*
+         Empty implementation that does not perform any custom validation so that subclasses are
+         not forced to implement this method. It can be implemented only if a desired subclass needs such a behaviour.
+        */
     }
 }

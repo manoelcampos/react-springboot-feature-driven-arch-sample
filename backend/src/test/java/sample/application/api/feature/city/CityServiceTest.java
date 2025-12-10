@@ -20,13 +20,13 @@ class CityServiceTest {
 
     @Test
     void insert() {
-        final var cidade = new City("Nova Cidade");
-        final var cidadeSalva = new City(1, "Nova Cidade");
+        final var city = new City("New City");
+        final var savedCity = new City(1, "New City");
 
-        Mockito.when(repository.saveAndFlush(cidade)).thenReturn(cidadeSalva);
+        Mockito.when(repository.saveAndFlush(city)).thenReturn(savedCity);
 
-        final var cidadeInserida = service.save(cidade);
-        assertNotNull(cidadeInserida);
-        assertEquals(cidadeSalva, cidadeInserida);
+        final var fetchedCity = service.save(city);
+        assertNotNull(fetchedCity);
+        assertEquals(savedCity, fetchedCity);
     }
 }

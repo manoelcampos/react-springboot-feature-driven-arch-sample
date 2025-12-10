@@ -1,4 +1,4 @@
 /**
- * Classes base para implementação de {@link org.springframework.web.bind.annotation.RestController}.
+ * Base classes for implementation of {@link org.springframework.web.bind.annotation.RestController}s.
  */
-package saneaplan.api.shared.controller;
+package sample.application.api.shared.controller;

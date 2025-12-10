@@ -6,19 +6,19 @@ import sample.application.api.shared.util.ConstraintViolation;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/// Classe base para a implementação de testes de integração dos [org.springframework.stereotype.Repository].
-/// AVISO: As subclasses não devem ser final. Incluindo final é gerado um warning.
+/// Base class for implementing integration tests for [org.springframework.stereotype.Repository].
+/// **WARNING**: Subclasses should not be final. Including final will generate a warning.
 /// @author Manoel Campos
 @DataJpaTest
 public abstract class AbstractRepositoryTest {
     /**
-     * Verifica se uma exceção lançada para uma operação de banco de dados
-     * violou uma constraint específica.
-     * @param ex exceção gerada
-     * @param constraintName nome da constraint que espera-se que tenha sido violada (como uma UC ou FK)
+     * Checks if an exception thrown for a database operation
+     * violated a specific constraint.
+     * @param ex the generated exception
+     * @param constraintName the name of the constraint that is expected to have been violated (such as a UC or FK)
      */
     protected static void assertConstraintViolation(final DataIntegrityViolationException ex, final String constraintName) {
-        final var msg = "O nome da constraint esperada de ser violada não foi identificado: " + ex.getMessage();
+        final var msg = "The name of the constraint expected to be violated was not identified: " + ex.getMessage();
         assertTrue(ConstraintViolation.regexMatch(ex, constraintName).isPresent(), msg);
     }
 }

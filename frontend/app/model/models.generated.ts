@@ -9,9 +9,9 @@
 export interface City extends AbstractBaseModel {
     name: string;
     /**
-     * The country state where the city is.
+     * The country district where the city is.
      */
-    state: State;
+    district: District;
 }
 
 /**
@@ -25,6 +25,15 @@ export interface Customer extends AbstractBaseModel {
      * The city where the customer lives.
      */
     city?: City | null;
+}
+
+/**
+ * [See , {@link AbstractBaseModel},  for the reason why all atributes are public.]
+ * author @author Manoel Campos
+ */
+export interface District extends AbstractBaseModel {
+    name: string;
+    abbreviation: string;
 }
 
 /**
@@ -61,32 +70,24 @@ export interface Purchase extends AbstractBaseModel {
  */
 export interface PurchaseItem extends AbstractBaseModel {
     /**
-     * Produto sendo vendido.
-     * O valor do campo é ignorado em alterações (updates).
-     * Se for feita uma alteração em algum item, o valor deste atributo é desconsiderado.
-     * Depois da venda inserida, o produto não pode ser alterada.
+     * Product being sold.
+     * The field value is ignored in updates.
+     * If a change is made to any item, the value of this attribute is disregarded.
+     * After the sale is entered, the product cannot be changed.
      */
     product: Product;
     /**
-     * Quantidade de itens do produto vendidos.
-     * O valor do campo é ignorado em alterações (updates).
-     * Se for feita uma alteração em algum item, o valor deste atributo é desconsiderado.
-     * Depois da venda inserida, a quantidade não pode ser alterada.
+     * Quantity of product items sold.
+     * The field value is ignored in updates.
+     * If a change is made to any item, the value of this attribute is disregarded.
+     * After the sale is entered, the quantity cannot be changed.
      */
     quant: number;
 }
 
 /**
- * [See , {@link AbstractBaseModel},  for the reason why all atributes are public.]
- * author @author Manoel Campos
- */
-export interface State extends AbstractBaseModel {
-    name: string;
-    abbreviation: string;
-}
-
-/**
- * [All classes that have the , {@link Entity},  annotation must inherit from this class.
+ * [A base class for implementing JPA Entities.
+ * All classes that have the , {@link Entity},  annotation must inherit from this class.
  * Those classes have all atributes define as public, since the
  * [auto-class-accessors-maven-plugin](https://github.com/manoelcampos/auto-class-accessors-maven-plugin) is being used.
  * This way, when there is a read/write to a field,
@@ -99,12 +100,12 @@ export interface AbstractBaseModel extends BaseModel {
 
 /**
  * A ,{@link DTORecord Data Transfer Object}, for ,{@link City},.
- * param @param state The country state where the city is.
+ * param @param district The country district where the city is.
  */
 export interface CityDTO extends DTORecord<City> {
     id?: number | null;
     name: string;
-    stateId: number;
+    districtId: number;
 }
 
 /**
@@ -116,6 +117,15 @@ export interface CustomerDTO extends DTORecord<Customer> {
     name: string;
     socialSecurityNumber: string;
     cityId?: number | null;
+}
+
+/**
+ * A ,{@link DTORecord Data Transfer Object}, for ,{@link District},.
+ */
+export interface DistrictDTO extends DTORecord<District> {
+    id?: number | null;
+    name: string;
+    abbreviation: string;
 }
 
 /**
@@ -141,8 +151,8 @@ export interface PurchaseDTO extends DTORecord<Purchase> {
 
 /**
  * A ,{@link DTORecord Data Transfer Object}, for ,{@link PurchaseItem},.
- * param @param product Produto sendo vendido. O valor do campo é ignorado em alterações (updates). Se for feita uma alteração em algum item, o valor deste atributo é desconsiderado. Depois da venda inserida, o produto não pode ser alterada.
- * param @param quant Quantidade de itens do produto vendidos. O valor do campo é ignorado em alterações (updates). Se for feita uma alteração em algum item, o valor deste atributo é desconsiderado. Depois da venda inserida, a quantidade não pode ser alterada.
+ * param @param product Product being sold. The field value is ignored in updates. If a change is made to any item, the value of this attribute is disregarded. After the sale is entered, the product cannot be changed.
+ * param @param quant Quantity of product items sold. The field value is ignored in updates. If a change is made to any item, the value of this attribute is disregarded. After the sale is entered, the quantity cannot be changed.
  */
 export interface PurchaseItemDTO extends DTORecord<PurchaseItem> {
     id?: number | null;
@@ -152,15 +162,7 @@ export interface PurchaseItemDTO extends DTORecord<PurchaseItem> {
 }
 
 /**
- * A ,{@link DTORecord Data Transfer Object}, for ,{@link State},.
- */
-export interface StateDTO extends DTORecord<State> {
-    id?: number | null;
-    name: string;
-    abbreviation: string;
-}
-
-/**
+ * An interface to be implemented by classes that represent a JPA Entity.
  * author @author Manoel Campos
  */
 export interface BaseModel extends Serializable {

@@ -1,7 +1,4 @@
-/**
- * Testes de Integração dos {@link org.springframework.stereotype.Repository}
- * fazendo acesso a um servidor PostgreSQL
- * usando <a href="http://testcontainers.com">Test Containers</a>.
- * Assim, é preciso ter o Docker rodando na máquina local para rodar tais testes.
- */
+/// Integration Tests for [org.springframework.stereotype.Repository]
+/// accessing a PostgreSQL server using [Test Containers](http://testcontainers.com).
+/// Therefore, Docker must be running on the local machine to run these tests.
 package sample.application.api.repository;

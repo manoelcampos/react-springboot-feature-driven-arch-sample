@@ -4,27 +4,26 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
+ * A class with mathematical utility functions.
  * @author Manoel Campos
  */
 public final class MathUtil {
-    /**
-     * Construtor privado para evitar a instanciação da classe.
-     */
-    private MathUtil() {/**/}
+    /** Private constructor to prevent instantiating the class */
+    private MathUtil() { throw new UnsupportedOperationException(); }
 
     /**
-     * {@return a média a partir de um conjunto de valores já somados}
-     * @param sum a soma dos valores para calcular a média
-     * @param total total de itens para calcular a média
+     * {@return the average from a set of already summed values}
+     * @param sum the sum of the values to calculate the average
+     * @param total total number of items to calculate the average
      */
     public static double average(final double sum, final int total) {
         return total == 0 ? 0 : sum/total;
     }
 
     /**
-     * Formata um valor double representando um percentual com 2 casas decimais.
-     * @param percent valor percentual a ser formatado
-     * @return o valor com 2 casas decimais
+     * Formats a double value representing a percentage, rounding it to 2 decimal places.
+     * @param percent percentage value to be formatted
+     * @return the value with 2 decimal places
      */
     public static double formatPercent(final double percent){
         final int decimalPlaces = 2;

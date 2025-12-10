@@ -3,12 +3,12 @@ package sample.application.api.repository;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-/// Classe base para a implementação de testes de integração dos [org.springframework.stereotype.Repository]
-/// AVISO: As subclasses não devem ser final. Incluindo final é gerado um warning.
+/// Base class for implementing integration tests for [org.springframework.stereotype.Repository]
+/// WARNING: Subclasses should not be final. Making them final will generate a warning.
 ///
-/// [AutoConfigureTestDatabase] é usado para NÃO substituir o banco criado pela aplicação,
-/// pelo embedded db em memória que o [DataJpaTest] cria.
-/// Assim, o mesmo banco da aplicação será usado para os testes (com as mesmas configurações).
+/// [AutoConfigureTestDatabase] is used to NOT replace the database created by the application
+/// with the in-memory embedded DB that [DataJpaTest] creates.
+/// This way, the same application database will be used for the tests (with the same configurations).
 ///
 /// @author Manoel Campos
 @DataJpaTest

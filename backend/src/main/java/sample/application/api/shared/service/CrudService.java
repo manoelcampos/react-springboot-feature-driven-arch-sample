@@ -8,17 +8,15 @@ import sample.application.api.shared.model.AbstractBaseModel;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Fornece um contrato para implementação de {@link Service}s que
- * executam operações CRUD em um {@link AbstractController}.
- * Encapsula todas as regras de negócio, deixando o controller
- * lidar apenas com a camada HTTP
- * (como response, request, códigos de status, redirect, etc).
- * @param <T> tipo da entidade que o service irá manipular
- * @param <R> tipo do repositório que acesso os dados da entidade no banco
- *
- * @author Manoel Campos
- */
+/// Provides a contract for the implementation of [Service]s that
+/// perform CRUD operations on an [AbstractController].
+/// Encapsulates all business rules, leaving the controller
+/// to handle only the HTTP layer
+/// (such as response, request, status codes, redirect, etc).
+/// @param <T> the type of entity that the service will manage
+/// @param <R> the type of repository for accessing the entity's data in the database
+///
+/// @author Manoel Campos
 public interface CrudService<T extends AbstractBaseModel, R extends EntityRepository<T>> {
     boolean deleteById(long id);
 
@@ -28,10 +26,8 @@ public interface CrudService<T extends AbstractBaseModel, R extends EntityReposi
 
     T save(T entity);
 
-    /**
-     * {@return o nome da entidade que o service manipula}
-     * Tal classe é a {@link AbstractBaseModel} definida de forma genérica
-     * na declaração de classes que implementam esta interface.
-     */
+    /// {@return the name of the entity that the service handles}
+    /// This class is the [AbstractBaseModel] defined generically
+    /// in the class declarations that implement this interface.
     String getEntityClassName();
 }

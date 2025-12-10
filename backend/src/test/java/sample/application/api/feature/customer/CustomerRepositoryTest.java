@@ -14,14 +14,14 @@ class CustomerRepositoryTest extends AbstractRepositoryTest {
 
     @Test
     void findByCityId() {
-        final var listaCliente = repository.findByCityId(1);
-        assertEquals(2, listaCliente.size());
+        final var customerList = repository.findByCityId(1);
+        assertEquals(2, customerList.size());
     }
 
     @ParameterizedTest
     @CsvSource({"Ana%,1", "%Silva,2", "%Pedro%,3"})
     void findByNameLike(final String nome, final int count) {
-        final var listaCliente = repository.findByNameLike(nome);
-        assertEquals(count, listaCliente.size());
+        final var customerList = repository.findByNameLike(nome);
+        assertEquals(count, customerList.size());
     }
 }

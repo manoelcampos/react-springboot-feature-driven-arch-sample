@@ -20,9 +20,9 @@ public class SampleApiApplication {
     }
 
     /**
-     * Configura a especificação OpenAPI para gerar
-     * URLs relativas para os endpoints da API.
-     * Assim, funciona para sites HTTP (como em localhost) ou HTTPS.
+     * Configures the OpenAPI specification to generate
+     * relative URLs for the API endpoints.
+     * This way, it works for HTTP sites (such as localhost) or HTTPS.
      * @return
      */
     @Bean

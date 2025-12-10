@@ -10,13 +10,11 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-/**
- * Implementação base de um {@link CrudService} para
- * executar operações CRUD em um {@link AbstractController}.
- * @param <T> {@inheritDoc}
- * @param <R> {@inheritDoc}
- * @author Manoel Campos
- */
+/// Base implementation of a [CrudService] to
+/// perform CRUD operations on a [AbstractController].
+/// @param <T> {@inheritDoc}
+/// @param <R> {@inheritDoc}
+/// @author Manoel Campos
 @Service
 public abstract class AbstractCrudService<T extends AbstractBaseModel, R extends EntityRepository<T>> implements CrudService<T, R> {
     private final R repository;
@@ -28,14 +26,12 @@ public abstract class AbstractCrudService<T extends AbstractBaseModel, R extends
         entityClassName = typeParameters.length == 0 ? "Object" : typeParameters[0].getClass().getSimpleName();
     }
 
-    /**
-     * Obtém um {@link Supplier} de {@link NoSuchElementException} com a mensagem passada como parâmetro.
-     * Tal método pode ser chamado em operações como {@link Optional#orElseThrow(Supplier)}
-     * ao chamar métodos como {@link EntityRepository#findById(Object)} e qualquer
-     * outro que retorne um Optional.
-     * @param msg mensagem de erro a ser exibida quando a exceção retornada pelo Supplier for lançada
-     * @return o supplier de {@link NoSuchElementException}
-     */
+    /// Obtains a [Supplier] of [NoSuchElementException] with the message passed as a parameter.
+    /// This method can be called in operations like [Optional#orElseThrow(Supplier)]
+    /// when calling methods like [EntityRepository#findById(Object)] and any
+    /// other that returns an Optional.
+    /// @param msg error message to be displayed when the exception returned by the Supplier is thrown
+    /// @return the [NoSuchElementException] supplier
     protected static Supplier<NoSuchElementException> notFoundSupplier(final String msg) {
         return () -> new NoSuchElementException(msg);
     }

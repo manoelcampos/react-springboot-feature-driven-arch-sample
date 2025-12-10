@@ -14,17 +14,15 @@ import java.util.Objects;
 import static org.springframework.core.annotation.AnnotationUtils.findAnnotation;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
-/**
- * Classe base para a implementação de {@link RestController} que irão fornecer apenas operações de consulta
- * (a serem implementadas pelas classes filhas).
- * Cada classe filha deve incluir a anotação {@link RestController} e {@link RequestMapping}.
- * @param <T> tipo da entidade que o controller irá manipular
- *
- * @author Manoel Campos
- */
+/// Base class for the implementation of [RestController] that will provide only query operations
+/// (to be implemented by the child classes).
+/// Each child class must include the [RestController] and [RequestMapping] annotations.
+/// @param <T> type of the entity that the controller will handle
+///
+/// @author Manoel Campos
 public class AbstractSearchController<T extends AbstractBaseModel, R extends EntityRepository<T>, S extends AbstractCrudService<T, R>> {
     /**
-     * Caminho relativo do controller na anotação {@link RequestMapping}.
+     * Relative path of the controller in the {@link RequestMapping} annotation.
      */
     protected final String basePath;
 
@@ -41,10 +39,10 @@ public class AbstractSearchController<T extends AbstractBaseModel, R extends Ent
     }
 
     /**
-     * Procura o valor da anotação {@link RequestMapping} na classe controller filha,
-     * que representa o caminho do controller.
+     * Searches for the value of the {@link RequestMapping} annotation in the child controller class,
+     * which represents the controller's path.
      *
-     * @return caminho do controller
+     * @return controller path
      */
     protected String findBasePath() {
         final var handlerClass = getClass();
@@ -58,10 +56,10 @@ public class AbstractSearchController<T extends AbstractBaseModel, R extends Ent
     }
 
     /**
-     * Cria uma exceção de recurso não encontrado.
-     * @param msgFormat uma String contendo o formato da mensagem, podendo ter um %s para ser substituído pelo nome da entidade.
-     *                  Se não existir %s, a mensagem será exibida como passada, sem formatação.
-     * @return a exceção criada
+     * Creates a resource not found exception.
+     * @param msgFormat a String containing the message format, which can have a %s to be replaced by the entity name.
+     * If there is no %s, the message will be displayed as passed, without formatting.
+     * @return the created exception
      */
     protected ResponseStatusException newNotFoundException(final String msgFormat) {
         final var msg = msgFormat.contains("%s") ? msgFormat.formatted(service.getEntityClassName()) : msgFormat;

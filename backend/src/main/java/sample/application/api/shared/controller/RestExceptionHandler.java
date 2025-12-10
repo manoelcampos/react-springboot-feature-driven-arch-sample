@@ -22,8 +22,8 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 import static sample.application.api.shared.util.ConstraintViolation.findUniqueConstraintMessage;
 
 /**
- * Captura exceções específicas para retornar um {@link HttpError}
- * com uma mensagem amigável.
+ * Catches specific exceptions to return an {@link HttpError}
+ * with a user-friendly message.
  *
  * @author Manoel Campos
  */
@@ -31,47 +31,40 @@ import static sample.application.api.shared.util.ConstraintViolation.findUniqueC
 public class RestExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(RestExceptionHandler.class);
 
-    /**
-     * Captura exceções {@link ResponseStatusException}
-     * para permitir emitir uma mensagem junto com o código de status.
-     * Como os {@link AbstractController} são genéricos, não é possível retornar
-     * uma String no corpo da mensagem, mas sim um objeto {@link AbstractBaseModel}.
-     * Desta forma, a exceção precisa ser capturada aqui e retornada uma {@link ResponseEntity}
-     * String com a mensagem de erro personalizada.
-     *
-     * @param ex exceção capturada
-     * @return {@link ResponseEntity} com a mensagem de erro personalizada
-     */
+    /// Captures [ResponseStatusException] exceptions
+    /// to allow sending a message along with the status code.
+    /// Since [AbstractController] are generic, it is not possible to return
+    /// a String in the message body, but rather an [AbstractBaseModel] object.
+    /// Therefore, the exception needs to be caught here and returned as a [ResponseEntity]
+    /// String with the custom error message.
+    ///
+    /// @param ex captured exception
+    /// @return [ResponseEntity] with the custom error message
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<HttpError> handleResponseStatusException(final ResponseStatusException ex) {
         return ResponseEntity.status(ex.getStatusCode()).body(new HttpError(ex));
     }
 
-    /**
-     * Captura exceções {@link DataIntegrityViolationException}
-     * para verificar se foram lançadas devido a uma violação
-     * de Foreign Key
-     * @param ex exceção lançada
-     * @return {@link ResponseEntity} com a mensagem de erro personalizada
-     */
+    /// Captures [DataIntegrityViolationException] exceptions
+    /// to check if they were thrown due to a Foreign Key violation
+    /// @param ex thrown exception
+    /// @return [ResponseEntity] with the custom error message
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<HttpError> handleDataIntegrityViolationException(final DataIntegrityViolationException ex) {
         final var status = CONFLICT;
         final var msg = ConstraintViolation
                             .findForeignKeyMessage(ex)
                             .or(() -> findUniqueConstraintMessage(ex))
-                            .orElse("Erro ao executar operação");
+                            .orElse("Error executing operation");
 
         return ResponseEntity.status(status).body(new HttpError(status, msg));
     }
 
-    /**
-     * Captura um erro de validação do Hibernate Validator que ocorre
-     * quando um parâmetro de um endpoint em um controller é anotado com {@link Valid}.
-     *
-     * @param ex exceção ocorrida
-     * @return {@link ResponseEntity} com a mensagem de erro personalizada
-     */
+    /// Catches a validation error from Hibernate Validator that occurs
+    /// when a parameter of an endpoint in a controller is annotated with [Valid].
+    ///
+    /// @param ex occurred exception
+    /// @return [ResponseEntity] with the custom error message
     @ExceptionHandler(BindException.class)
     public ResponseEntity<HttpError> handleResponseStatusException(final BindException ex) {
         final String errorMessages = getValidationErrorMessages(ex);
@@ -92,7 +85,7 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<HttpError> handleResponseStatusException(final Exception ex) {
-        final var msg = "Ocorreu um erro inesperado";
+        final var msg = "An unexpected error occurred";
         logger.error(msg, ex);
         final var status = HttpStatus.INTERNAL_SERVER_ERROR;
         return ResponseEntity.status(status).body(new HttpError(status.value(), status.name(), msg));
@@ -110,7 +103,7 @@ public class RestExceptionHandler {
 
     private static ResponseEntity<HttpError> validationException(final Exception ex) {
         final var msg = ex.getMessage();
-        logger.error("Erro de validação", ex);
+        logger.error("Validation error", ex);
         final var status = HttpStatus.CONFLICT;
         return ResponseEntity.status(status).body(new HttpError(status.value(), status.name(), msg));
     }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import sample.application.api.feature.customer.Customer;
 import sample.application.api.feature.product.AbstractServiceTest;
 import sample.application.api.feature.product.Product;
@@ -18,22 +19,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PurchaseServiceTest extends AbstractServiceTest {
-    /**
-     * @InjectMocks instancia o serviço,
-     * mas pegando os objetos fake anotados com
-     * @Mock e armazenando eles nos atributos
-     * de mesmo tipo dentro do serviço.
-     * Assim, o serviço não vai usar um objeto
-     * real para tais atributos, mas o
-     * fantoche (mock) que criamos.
-     */
+    /// [InjectMocks] instantiates the service,
+    /// but it takes the fake objects annotated with
+    /// [Mock] and stores them in the attributes
+    /// of the same type within the service.
+    /// This way, the service won't use a real object
+    /// for such attributes, but the mock we created.
     @InjectMocks
     private PurchaseService service;
 
-    /**
-     * @Autowired is only used to instantiate real objects
-     * @Mock creates a fake object, a puppet that you define how it will behave
-     */
+    /// [Autowired] is only used to instantiate real objects
+    /// [Mock] creates a fake object, a puppet that you define how it will behave
     @Mock
     private ProductRepository productRepository;
 
@@ -52,7 +48,7 @@ class PurchaseServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void insertProdutoSemEstoque() {
+    void insertOutOfStockProduct() {
         configurarMockProdutoRepository(prod1);
         final var itens = List.of(new PurchaseItem(1, 20), new PurchaseItem(2, 5));
         purchase.setItens(itens);
@@ -61,7 +57,7 @@ class PurchaseServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void insertProdutoNaoInformado() {
+    void insertWithProductNotDefined() {
         configurarMockProdutoRepository(prod1);
         final var itens = List.of(new PurchaseItem(1, 2), new PurchaseItem());
         purchase.setItens(itens);
@@ -70,7 +66,7 @@ class PurchaseServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void insertIdProdutoNaoInformado() {
+    void insertWithProductIdNotDefined() {
         configurarMockProdutoRepository(prod1);
         final var itens = List.of(new PurchaseItem(1, 2), new PurchaseItem(new Product()));
         purchase.setItens(itens);
@@ -78,20 +74,20 @@ class PurchaseServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void insertProdutoNaoLocalizado() {
+    void insertWithProductNotFound() {
         final var itens = List.of(new PurchaseItem(3, 2));
         purchase.setItens(itens);
         assertThrows(NoSuchElementException.class, () -> service.save(purchase));
     }
 
     @Test
-    void updateVendaNaoAlteraEstoqueProduto() {
+    void updatePurchaseDoesntChangeProductStock() {
         final var itens = List.of(new PurchaseItem(1, 2), new PurchaseItem());
-        final var vendaExistente = new Purchase(4, itens);
-        Mockito.when(repository.saveAndFlush(vendaExistente)).thenReturn(vendaExistente);
+        final var existingPurchase = new Purchase(4, itens);
+        Mockito.when(repository.saveAndFlush(existingPurchase)).thenReturn(existingPurchase);
 
-        final var vendaObtida = service.save(vendaExistente);
-        assertEquals(vendaExistente, vendaObtida);
+        final var fetchedPurchase = service.save(existingPurchase);
+        assertEquals(existingPurchase, fetchedPurchase);
     }
 
 }

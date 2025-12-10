@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import sample.application.api.feature.AbstractRepositoryTest;
-import sample.application.api.feature.state.State;
+import sample.application.api.feature.district.District;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ class CityRepositoryTest extends AbstractRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        this.instance = new City("Cidade 1", new State(1));
+        this.instance = new City("City 1", new District(1));
         repository.save(instance);
     }
 
@@ -46,15 +46,15 @@ class CityRepositoryTest extends AbstractRepositoryTest {
 
     @Test
     void findFirstByDescricao() {
-        final var descricao = "Palmas";
-        final List<City> result = repository.findByNameLike(descricao);
-        assertEquals(1, result.size());
-        assertEquals(descricao, result.getFirst().name);
+        final var description = "Palmas";
+        final List<City> list = repository.findByNameLike(description);
+        assertEquals(1, list.size());
+        assertEquals(description, list.getFirst().name);
     }
 
     @Test
     void inserirDescricaoDuplicadaGeraExcecao() {
-        final var cidade = new City(instance.name, new State(1));
-        assertThrows(DataIntegrityViolationException.class, () -> repository.save(cidade));
+        final var city = new City(instance.name, new District(1));
+        assertThrows(DataIntegrityViolationException.class, () -> repository.save(city));
     }
 }

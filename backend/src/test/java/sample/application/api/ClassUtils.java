@@ -23,24 +23,22 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.joining;
 
 /**
- * Possui métodos utilitários para obter informações sobre as classes
- * Java para serem usadas nos testes.
+ * Contains utility methods to obtain information about Java classes
+ * to be used in tests.
  * @author Manoel Campos
  */
 public class ClassUtils {
     private static final String SOURCE_DIR = "src/main/java/".replaceAll("/", File.separator);
 
-    /**
-     * Construtor privado para evitar que a classe seja instanciada.
-     */
-    private ClassUtils(){/**/}
+    /** Private constructor to prevent instantiating the class */
+    private ClassUtils(){ new UnsupportedOperationException(); }
 
     /**
-     * Lê um arquivo .java até encontrar um chave, que indica o início de uma classe, interface, record ou enum.
-     * Assim, antes disso estarão sendo obtidos apenas os imports para verificação.
+     * Reads a .java file until it finds a brace, which indicates the beginning of a class, interface, record, or enum.
+     * Thus, before that, only the imports will be retrieved for verification.
      *
-     * @param path caminho do arquivo .java a ser lido
-     * @return o conteúdo antes da abertura de uma classe, interface, record ou enum
+     * @param path the path of the .java file to be read
+     * @return the content before the opening of a class, interface, record, or enum
      * @throws IOException
      */
     public static String readJavaFileImports(final Path path) throws IOException {
@@ -59,7 +57,7 @@ public class ClassUtils {
                     try {
                         classes.add(Class.forName(className));
                     } catch (ClassNotFoundException e) {
-                        // Ignora classes que não puderam ser carregadas
+                        // Ignores classes that could not be loaded
                     }
                 } else if(Files.isDirectory(pathElement)){
                     classes.addAll(getClassesForPackage(getPackageNameFromPath(pathElement)));
@@ -94,8 +92,7 @@ public class ClassUtils {
     }
 
     /**
-     * Obtém as {@link UniqueConstraint} definidas na anotação {@link Table} da entidade.
-     * @return
+     * @return {@link UniqueConstraint} defined in the {@link Table} annotation of the entity.
      */
     public static Stream<UniqueConstraint> getUniqueConstraints(final Class<?> modelClass){
         final var tableAnnotation = AnnotationUtils.findAnnotation(modelClass, Table.class);

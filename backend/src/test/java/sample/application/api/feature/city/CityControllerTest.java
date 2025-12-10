@@ -3,14 +3,10 @@ package sample.application.api.feature.city;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.Preconditions;
 import sample.application.api.controller.AbstractControllerTest;
-import sample.application.api.feature.state.State;
 import sample.application.api.shared.util.PathUtil;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 /**
- * Testes para a API REST de {@link City} implementada pelo {@link CityController}.
+ * Tests for the REST API of {@link City} implemented by {@link CityController}.
  * @author Manoel Campos
  */
 class CityControllerTest extends AbstractControllerTest {
@@ -20,26 +16,26 @@ class CityControllerTest extends AbstractControllerTest {
     @Test
     void findById() {
         final long id = 1;
-        final var distrito = new City(id, "Cidade 1");
+        final var city = new City(id, "City 1");
         client().get()
                 .uri(BY_ID_URL, id)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(City.class)
-                .isEqualTo(distrito);
+                .isEqualTo(city);
     }
 
     /**
-     * Insere um novo Cidade na base de dados e retorna o Cidade inserido.
-     * @param cityParaInserir Cidade para ser inserido
-     * @return novo Cidade com o id gerado
+     * Inserts a new City into the database and returns the inserted City.
+     * @param cityToInsert City to be inserted
+     * @return new City with the generated id
      */
-    private City insert(final City cityParaInserir) {
-        Preconditions.condition(cityParaInserir.getId() == null, "O id do Cidade a ser inserido deve ser nulo");
+    private City insert(final City cityToInsert) {
+        Preconditions.condition(cityToInsert.getId() == null, "The ID of the City to be inserted must be null");
 
         return client().post()
                        .uri(RELATIVE_URL)
-                       .bodyValue(cityParaInserir)
+                       .bodyValue(cityToInsert)
                        .exchange()
                        .expectStatus()
                        .isCreated()

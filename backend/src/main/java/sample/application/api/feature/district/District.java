@@ -1,4 +1,4 @@
-package sample.application.api.feature.state;
+package sample.application.api.feature.district;
 
 import io.github.manoelcampos.dtogen.DTO;
 import jakarta.persistence.Entity;
@@ -11,7 +11,7 @@ import sample.application.api.shared.model.AbstractBaseModel;
 
 import java.util.Objects;
 
-// Represents a State (Province) of a Country.
+// Represents a District (Province) of a Country.
 /// See [AbstractBaseModel] for the reason why all atributes are public.
 /// @author Manoel Campos
 @Entity
@@ -20,35 +20,35 @@ import java.util.Objects;
     @UniqueConstraint(name = ConstraintKeys.UC_STATE_ABBREVIATION, columnNames = "abbreviation")
 })
 @DTO
-public class State extends AbstractBaseModel {
+public class District extends AbstractBaseModel {
     @NotNull @NotBlank
     public String name;
 
     @NotNull @NotBlank
     public String abbreviation;
 
-    public State() {}
+    public District() {}
 
-    public State(final long id) {
+    public District(final long id) {
         super(id);
     }
 
-    public State(final String name) {
+    public District(final String name) {
         this.name = name;
     }
 
     public String getAbbreviation() {
-        System.out.println("Getting state.abbreviation: " + this.abbreviation);
+        System.out.println("Getting district.abbreviation: " + this.abbreviation);
         return Objects.requireNonNullElse(abbreviation, "");
     }
 
     public void setAbbreviation(final String abbreviation) {
         this.abbreviation = Objects.requireNonNullElse(abbreviation, "").toUpperCase();
-        System.out.println("Setting state.abbreviation: " + this.abbreviation);
+        System.out.println("Setting district.abbreviation: " + this.abbreviation);
     }
 
     public void setName(final String name) {
         this.name = Objects.requireNonNullElse(name, "");
-        System.out.println("Setting state.name: " + this.name);
+        System.out.println("Setting district.name: " + this.name);
     }
 }

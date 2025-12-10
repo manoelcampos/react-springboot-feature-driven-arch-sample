@@ -1,9 +1,7 @@
-/**
- * Fornece um conjunto de classes para criação de {@link org.springframework.validation.Validator}s
- * para validação de {@link sample.application.api.shared.model.AbstractBaseModel}.
- * Se a entidade não precisar de regras de validação personalizadas,
- * não é necessário criar uma classe de validação para ela.
- * Ver a documentação de {@link sample.application.api.shared.validator.CustomValidator}
- * para mais detalhes.
- */
+/// Provides a set of classes for creating [org.springframework.validation.Validator]s
+/// for validating [sample.application.api.shared.model.AbstractBaseModel].
+/// If the entity does not require custom validation rules,
+/// it is not necessary to create a validation class for it.
+/// See the documentation of [sample.application.api.shared.validator.CustomValidator]
+/// for more details.
 package sample.application.api.shared.validator;

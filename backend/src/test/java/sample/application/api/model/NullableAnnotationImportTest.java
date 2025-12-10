@@ -10,16 +10,19 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-/// Verifica se as classes do pacote [saneaplan.api.model] usam a anotação [org.jetbrains.annotations.Nullable]
-/// para identificar quando um atributo pode ser nulo, no lugar de outras anotações possíveis como [jakarta.annotation.Nullable]
-/// ou [org.springframework.lang.Nullable].
-/// Isto irá garantir consistência no tipo de anotação usado no projeto.
-/// Adicionalmente, o typescript-generator irá gerar tais classes no arquivo models.ts
-/// e ele identifica quais campos podem ser nulos por meio de algumas anotações Nullable específicas.
-/// No entanto, ele não suporta todas as anotações possíveis que podem ser usadas para tal fim.
-/// Para evitar erros obscuros no build ao executar o typescript-generator,
-/// tal classe de testes foi criada para garantir que apenas a anotação [org.jetbrains.annotations.Nullable]
-/// seja usada. Caso contrário, exibe uma mensagem de erro mais clara.
+/// Checks if the classes in the package [sample.application.api.model] use the annotation [org.jetbrains.annotations.Nullable]
+/// to indicate when an attribute can be null, instead of other possible annotations like [jakarta.annotation.Nullable]
+/// or [org.springframework.lang.Nullable].
+///
+/// This will ensure consistency in the type of annotation used in the project.
+/// Additionally, the typescript-generator will generate such classes in the models.ts file
+/// and it identifies which fields can be null through certain specific Nullable annotations.
+///
+/// However, it does not support all possible annotations that might be used for this purpose.
+/// To avoid obscure errors during the build when running the typescript-generator,
+/// this test class was created to ensure that only the annotation [org.jetbrains.annotations.Nullable]
+/// is used. Otherwise, it displays a clearer error message.
+///
 /// TODO: Needs to find all classes that implement the BaseModel interface
 ///
 /// @author Manoel Campos
@@ -39,7 +42,7 @@ public class NullableAnnotationImportTest {
             nonAllowedNullableAnnotations.forEach(annotation -> {
                 assertFalse(
                     content.contains("import %s;".formatted(annotation)),
-                    () -> "Classe %s não deve importar a anotação %s mas %s".formatted(clazz.getName(), annotation, allowedAnnotation));
+                    () -> "Class %s should not import the annotation %s but %s".formatted(clazz.getName(), annotation, allowedAnnotation));
             });
         }
     }

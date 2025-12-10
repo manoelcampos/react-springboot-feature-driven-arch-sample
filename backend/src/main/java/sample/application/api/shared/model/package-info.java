@@ -1,4 +1,4 @@
 /**
- * Pacote base para implementação de classes de negócio, que podem ser {@link jakarta.persistence.Entity} ou não.
+ * Base package for the implementation of business classes, which may or may not be {@link jakarta.persistence.Entity}.
  */
 package sample.application.api.shared.model;

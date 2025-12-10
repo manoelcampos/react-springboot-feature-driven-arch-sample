@@ -6,53 +6,54 @@ import org.apache.commons.text.WordUtils;
 import java.util.Objects;
 
 /**
+ * Class with String utility functions.
  * @author Manoel Campos
  */
 public final class StringUtil {
-    /** Construtor privado para evitar instanciação da classe. */
-    private StringUtil(){/**/}
+    /** Private constructor to prevent instantiating the class */
+    private StringUtil(){ throw new UnsupportedOperationException(); }
 
     /**
-     * Obtém um nome mais legível para uma coluna de uma tabela, para ser exibido em mensagens para o usuário.
-     * Tal nome pode ser usado para formatar mensagens de erro (referentes a uma coluna de uma tabela)
-     * de forma mais adequadas para o usuário.
+     * Gets a more readable name for a table column, to be displayed in messages to the user.
+     * Such a name can be used to format error messages (related to a table column)
+     * in a way that is more user-friendly.
      *
-     * @param columnName nome de uma coluna no banco
-     * @return um nome mais legível para a coluna
+     * @param columnName name of a column in the database
+     * @return a more readable name for the column
      */
     public static String formatColumnName(String columnName){
-        /* Se o erro é um campo que representa uma chave estrangeira, chave o _id pois assim,
-           fica apenas o nome da tabela relacionada que representa o atributo na classe para a chave estrangeira. */
+        /* If the error is a field that represents a foreign key, use the _id because this way,
+        only the name of the related table remains, which represents the attribute in the class for the foreign key. */
         columnName = columnName.replaceAll("_id", "").replaceAll("_", " ");
         return camelCaseToSpace(columnName);
     }
 
     /**
-     * Converte um texto (como o nome de uma tabela ou campo do banco) em um formato mais legível para humano,
-     * para ser exibida em mensagens para o usuário.
-     * Tal nome pode ser usado para formatar mensagens de erro (referentes a tal tabela)
-     * de forma mais adequada para o usuário.
+     * Converts a text (such as the name of a table or database field) into a more human-readable format,
+     * to be displayed in messages to the user.
+     * Such a name can be used to format error messages (related to that table)
+     * in a way that is more appropriate for the user.
      *
-     * @param text um texto normalmente usando underscore para separar palavras, a ser convertido para um texto mais legível
-     * @return o texto convertido
+     * @param text a text usually using underscores to separate words, to be converted into a more readable text
+     * @return the converted text
      */
     public static String readableText(final String text){
         return WordUtils.capitalizeFully(text.replaceAll("_", " "));
     }
 
     /**
-     * Converte um texto no formato "variasPalavrasJuntas" em "varias palavras juntas".
+     * Converts a text in the format "variasPalavrasJuntas" to "varias palavras juntas".
      *
-     * @param text texto a ser convertido
-     * @return o texto no novo formato
+     * @param text text to be converted
+     * @return the text in the new format
      */
     public static String camelCaseToSpace(final String text) {
         return RegExUtils.replacePattern(text, "(?<!^)([A-Z])", " $1").toLowerCase();
     }
 
     /**
-     * {@return a String passada contendo apenas caracteres numéricos}
-     * @param value valor para remover caracteres não numéricos
+     * {@return a String containing only numeric characters}
+     * @param value value to remove non-numeric characters from
      */
     public static String onlyNumbers(final String value) {
         return Objects.requireNonNullElse(value, "").replaceAll("\\D", "");

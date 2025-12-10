@@ -12,37 +12,37 @@ import java.util.stream.IntStream;
 import static sample.application.api.shared.util.StringUtil.readableText;
 
 /**
- * Detecta a violação de uma constraint (como Foreign Key ou Unique Constraint) e
- * retorna informações legíveis para o usuário,
- * que podem ser exibidas em uma mensagem de erro amigável.
+ * Detects a constraint violation (such as a Foreign Key or Unique Constraint) and
+ * returns user-friendly information
+ * that can be displayed in a friendly error message.
  *
  * @author Manoel Campos
  */
 public final class ConstraintViolation {
-    /** Construtor privado para evitar instânciar a classe. */
-    private ConstraintViolation(){/**/}
+    /** Private constructor to prevent instantiating the class. */
+    private ConstraintViolation(){ throw new UnsupportedOperationException(); }
 
     /**
-     * Formato para nomes de Foreign Keys (FKs) no banco de dados, sendo fk_tabela_origem__tabela_destino,
-     * onde tabela_origem é a tabela que possui a chave estrangeira e tabela_destino é a tabela referenciada.
+     * Format for Foreign Key (FK) names in the database, using fk_source_table__destination_table,
+     * where source_table is the table that has the foreign key and destination_table is the referenced table.
      */
     //language=RegExp
     public static final String FK_FORMAT_REGEX = "fk_(\\w+)__(\\w+)";
 
     /**
-     * Format para nomes de Unique Constraints (UCs) no banco de dados.
-     * Mais detalhes em {@link ConstraintKeys}.
+     * Format for Unique Constraint (UC) names in the database.
+     * More details at {@link ConstraintKeys}.
      */
     //language=RegExp
     public static final String UC_FORMAT_REGEX = "uc_(\\w+)(__(\\w+))+___";
 
     /**
-     * Procura em uma mensagem de erro de uma exceção pelo nome de uma Foreign Key,
-     * que indica que a FK foi violada.
+     * Looks in an exception's error message for the name of a Foreign Key,
+     * which indicates that the FK was violated.
      *
-     * @param ex {@link DataIntegrityViolationException} lançada
-     * @return um {@link Optional} contendo uma mensagem amigável sobre a violação de uma FK;
-     * ou um Optiona vazio se a exceção foi devido a outro problema ou o nome de uma FK não foi encontrado.
+     * @param ex {@link DataIntegrityViolationException} thrown
+     * @return an {@link Optional} containing a user-friendly message about the FK violation;
+     * or an empty Optional if the exception was due to another issue or the name of a FK was not found.
      * @see #FK_FORMAT_REGEX
      */
     public static Optional<String> findForeignKeyMessage(final DataIntegrityViolationException ex) {
@@ -67,16 +67,16 @@ public final class ConstraintViolation {
     }
 
     /**
-     * Retorna uma mensagem amigável para o usuário indicando que a violação de uma FK foi detectada.
+     * Returns a user-friendly message indicating that a foreign key violation has been detected.
      *
-     * @param matcher objeto {@link MatchResult} retornado após a execução de uma regex para verificar
-     *                se a mensagem de erro contém o nome de uma FK seguindo o {@link #FK_FORMAT_REGEX}
-     * @return uma mensagem amigável para o usuário
+     * @param matcher a {@link MatchResult} object returned after executing a regex to check
+     * if the error message contains the name of a foreign key following the {@link #FK_FORMAT_REGEX}
+     * @return a user-friendly message for the user
      */
     private static String fkViolationMsg(final MatchResult matcher) {
         final var sourceTable = readableText(matcher.group(1));
         final var targetTable = readableText(matcher.group(2));
-        return "Não foi possível excluir o(a) %s pois existe um(a) %s associado(a) a ele(a)".formatted(targetTable, sourceTable);
+        return "It was not possible to delete %s because there is a %s associated with it".formatted(targetTable, sourceTable);
     }
 
     private static String ucViolationMsg(final MatchResult matcher) {
@@ -88,8 +88,8 @@ public final class ConstraintViolation {
                                     .toArray(String[]::new);
 
 
-        final var msg = fields.length == 1 ? "o mesmo valor" : "os mesmos valores";
-        return "Já existe um(a) %s com %s de %s".formatted(sourceTable, msg, String.join(", ", fields));
+        final var msg = fields.length == 1 ? "value" : "values";
+        return "There is already a %s with the same %s of %s".formatted(sourceTable, msg, String.join(", ", fields));
     }
 
 }

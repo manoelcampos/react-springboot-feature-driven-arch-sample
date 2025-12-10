@@ -6,10 +6,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Adapter contendo funções utilitárias para manipulação de datas,
- * Armazena internamente uma data passada por parâmetro,
- * que pode ser nula. Assim, o método se encarrega de fazer as devidas
- * verificações evitando {@link NullPointerException}.
+ * Adapter containing utility functions for date manipulation,
+ * Internally stores a date passed as a parameter,
+ * which can be null. Thus, the method is responsible for performing
+ * the necessary checks, avoiding {@link NullPointerException}.
  * @author Manoel Campos
  */
 public record DateAdapter(@Nullable LocalDate date) {
@@ -19,55 +19,44 @@ public record DateAdapter(@Nullable LocalDate date) {
         return DATE_FORMATTER.format(fimVigenciaAdicional);
     }
 
-    /**
-     * Verifica se a {@link #date() data} armazenada é igual ou posterior à data atual.
-     */
+    /// Checks if the stored [#date()] is equal to or after the current date.
     public boolean isEqualOrAfterNow() {
         return isEqualOrAfter(LocalDate.now());
     }
 
-    /**
-     * Verifica se a {@link #date() data} armazenada é igual ou posterior a uma outra data.
-     */
+    /// Checks if the stored [#date()] is equal to or after another date.
     public boolean isEqualOrAfter(final LocalDate other) {
         final var dayBeforeThis = this.date == null ? LocalDate.MIN : this.date.minusDays(1);
         return dayBeforeThis.isAfter(other);
     }
 
-    /**
-     * Verifica se a {@link #date() data} armazenada é posterior de uma outra data.
-     */
+    /// Checks if the stored [#date()] is later than another date.
     public boolean isAfter(final LocalDate other) {
         final var thisDate = this.date == null ? LocalDate.MIN : this.date;
         return thisDate.isAfter(other);
     }
 
-    /**
-     * Verifica se a {@link #date() data} armazenada é igual ou anterior à data atual.
-     */
+    /// Checks if the stored [#date()] is equal to or before the current date.
     public boolean isEqualOrBeforeNow() {
         return isEqualOrBefore(LocalDate.now());
     }
 
-    /**
-     * Verifica se a {@link #date() data} armazenada é igual ou anterior a uma outra data.
-     */
+    /// Checks if the stored [#date()] is equal to or before another date.
     public boolean isEqualOrBefore(final LocalDate other) {
         final var dayAfterThis = this.date == null ? LocalDate.MAX : this.date.plusDays(1);
         return dayAfterThis.isBefore(other);
     }
 
-    /**
-     * Verifica se a {@link #date() data} armazenada é anterior a uma outra data.
-     * Se a data armazenada for válida mas não for informada uma data nula como parâmetro,
-     * indica que não há limite de data para comparar.
-     * Assim, a data armazenada será considerada menor que a data informada.
-     * Tal situação é útil, por exemplo, quando deseja-se verificar se a data armazenada
-     * não chegou a uma data limite de vigência.
-     * Se não existir um limite de vigência (indicando que a data armazenada é válida por tempo indeterminado),
-     * então a data armazenada deve ser considerada como anterior à data informada (ou seja, vigente).
-     * @param other outra data para comparar
-     */
+    /// Checks if the stored [#date()] is earlier than another date.
+    /// If the stored date is valid but a null date is not provided as a parameter,
+    /// it indicates that there is no date limit for comparison.
+    /// Therefore, the stored date will be considered earlier than the provided date.
+    /// This situation is useful, for example, when you want to check if the stored date
+    /// has not reached an expiration date.
+    ///
+    /// If there is no expiration date (indicating that the stored date is valid indefinitely),
+    /// then the stored date should be considered earlier than the provided date (i.e., valid).
+    /// @param other another date to compare
     public boolean isBefore(@Nullable final LocalDate other) {
         final var thisDate = this.date == null ? LocalDate.MAX : this.date;
         final var otherDate = other == null ? LocalDate.MAX : other;

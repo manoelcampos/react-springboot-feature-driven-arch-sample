@@ -4,11 +4,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import sample.application.api.shared.model.BaseModel;
 
-/// Fornece um contrato para criação de outras interfaces anotadas com
+/// Provides a contract for creating other interfaces annotated with
 /// [org.springframework.stereotype.Repository]
-/// e que manipulam entidades do tipo [BaseModel].
-/// A implementação de tais interfaces é criada automaticamente pelo Spring Data JPA
-/// e instanciadas por meio de injeção de dependência.
+/// and that handle entities of type [BaseModel].
+/// The implementation of such interfaces is automatically created by Spring Data JPA
+/// and instantiated through dependency injection.
 /// @author Manoel Campos
 @NoRepositoryBean
 public interface EntityRepository<T extends BaseModel> extends JpaRepository<T, Long> {

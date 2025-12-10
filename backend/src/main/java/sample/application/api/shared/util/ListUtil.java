@@ -4,19 +4,16 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * @author Manoel Campos
- */
+/// A class with utility functions for [List]s.
+/// @author Manoel Campos
 public final class ListUtil {
-    /** Construtor privado para impedir instanciar a classe */
-    private ListUtil() {/**/}
+    /** Private constructor to prevent instantiating the class */
+    private ListUtil() { throw new UnsupportedOperationException(); }
 
-    /**
-     * Cria um LinkedList mutável a partir dos valores passados por parâmetro
-     * @param items itens a serem adicionados na lista
-     * @return o novo LinkedList
-     * @param <T> tipo dos elementos da lista
-     */
+    /// Creates a mutable [LinkedList] from the values passed as parameters
+    /// @param items items to be added to the list
+    /// @return the new LinkedList
+    /// @param <T> type of the elements in the list
     @SafeVarargs
     public static <T> List<T> of(final T ...items){
         final var list = new LinkedList<T>();
@@ -24,13 +21,11 @@ public final class ListUtil {
         return list;
     }
 
-    /**
-     * Adiciona um item a uma lista e retorna a própria lista.
-     * @param list lista para adicionar um item
-     * @param item item a ser adicionado
-     * @return a lista passada por parâmetro
-     * @param <T> tipo dos elementos da lista
-     */
+    /// Adds an item to a list and returns the list itself.
+    /// @param list the list to add an item to
+    /// @param item the item to be added
+    /// @return the list passed as a parameter
+    /// @param <T> the type of the list elements
     public static <T> List<T> add(final List<T> list, final T item){
         list.add(item);
         return list;

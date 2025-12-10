@@ -28,23 +28,23 @@ class ConstraintNamesTest {
         /**
          * @see ConstraintViolation#FK_FORMAT_REGEX
          */
-        FOREIGN_KEY("fk_tabela_origem__tabela_destino", FK_FORMAT_REGEX),
+        FOREIGN_KEY("fk_source_table__destination_table", FK_FORMAT_REGEX),
 
         /**
          * @see ConstraintViolation#UC_FORMAT_REGEX
          * @see ConstraintKeys
          */
-        UNIQUE_CONSTRAINT("uc_tabela_origem__campo1__campo2__campo_n___", UC_FORMAT_REGEX);
+        UNIQUE_CONSTRAINT("uc_source_table__field1__field2__field_n___", UC_FORMAT_REGEX);
 
         /**
-         * Uma descrição mais amigável do formato que o nome de uma constraint deve ter,
-         * conforme a {@link #regex} associada a ela.
+         * A more user-friendly description of the format that a constraint name should have,
+         * according to the {@link #regex} associated with it.
          * @see ConstraintViolation
          */
         private final String formatDescription;
 
         /**
-         * Regex que identifica qual o formato do nome de uma constraint.
+         * Regex that identifies the format of a constraint's name.
          */
         private final String regex;
 
@@ -55,7 +55,7 @@ class ConstraintNamesTest {
     }
 
     /**
-     * Verifica se o nome das FKs está conforme o formato esperado.
+     * Check if the names of the FKs are according to the expected format.
      */
     @Test
     void foreignKeyNames() {
@@ -68,7 +68,7 @@ class ConstraintNamesTest {
     }
 
     /**
-     * Verifica se o nome das Unique Constraints (UCs) está de acordo com o formato esperado.
+     * Check if the names of the Unique Constraints (UCs) are in the expected format.
      * TODO: Needs to find all classes that implement the BaseModel interface
      */
     @Test @Disabled
@@ -90,13 +90,13 @@ class ConstraintNamesTest {
     }
 
     /**
-     * {@return uma mensagem de erro indicando que o nome da constraint não está no formato esperado}
-     * @param aClass classe onde a violação da constraint ocorreu.
-     * @param constraintType tipo de constraint (Foreign Key ou Unique Constraint)
-     * @param constraintName nome da FK ou UC
+     * {@return an error message indicating that the constraint name is not in the expected format}
+     * @param aClass class where the constraint violation occurred.
+     * @param constraintType type of constraint (Foreign Key or Unique Constraint)
+     * @param constraintName name of the FK or UC
      */
     private static String errorMsg(final Class<?> aClass, final ConstraintType constraintType, final String constraintName) {
-        final var msg = "Nome da %s %s na classe %s não está no formato esperado %s";
+        final var msg = "Name of %s %s in class %s is not in the expected format %s";
         return msg.formatted(readableText(constraintType.name()), constraintName, aClass.getName(), constraintType.formatDescription);
     }
 }

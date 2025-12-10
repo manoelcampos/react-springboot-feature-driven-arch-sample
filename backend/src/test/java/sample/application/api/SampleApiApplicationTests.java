@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
- * Uma classe de testes para verificar se a aplicação Spring está sendo inicializada corretamente.
+ * Test class to check if the Spring application is starting up correctly.
  */
 @SpringBootTest
 class SampleApiApplicationTests {

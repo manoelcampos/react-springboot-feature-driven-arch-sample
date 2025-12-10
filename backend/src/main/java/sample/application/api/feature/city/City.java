@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import sample.application.api.config.ConstraintKeys;
-import sample.application.api.feature.state.State;
+import sample.application.api.feature.district.District;
 import sample.application.api.shared.model.AbstractBaseModel;
 
 import java.util.Objects;
@@ -23,13 +23,13 @@ public class City extends AbstractBaseModel {
     public String name;
 
     /**
-     * The country state where the city is.
+     * The country district where the city is.
      */
     @NotNull
     @JoinColumn(foreignKey = @ForeignKey(name = ConstraintKeys.FK_CITY__STATE))
     @ManyToOne
     @DTO.MapToId
-    public State state;
+    public District district;
 
     public City() {}
 
@@ -41,9 +41,9 @@ public class City extends AbstractBaseModel {
         this.name = name;
     }
 
-    public City(final String name, final State state) {
+    public City(final String name, final District district) {
         this.name = name;
-        this.state = state;
+        this.district = district;
     }
 
     public City(final long id, final String name) {

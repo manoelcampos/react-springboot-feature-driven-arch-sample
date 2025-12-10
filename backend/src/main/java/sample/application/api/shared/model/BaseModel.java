@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.Serializable;
 
 /**
+ * An interface to be implemented by classes that represent a JPA Entity.
  * @author Manoel Campos
  */
 public interface BaseModel extends Serializable {
@@ -18,7 +19,7 @@ public interface BaseModel extends Serializable {
     }
 
     /**
-     * @return true ou false se a entidade está sendo inserida no banco ou não.
+     * @return true or false if the entity is being inserted into the database or not.
      */
     @JsonIgnore
     default boolean isInserting(){
