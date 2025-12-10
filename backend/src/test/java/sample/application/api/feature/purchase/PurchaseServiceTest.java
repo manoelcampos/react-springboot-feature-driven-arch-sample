@@ -7,7 +7,7 @@ import org.mockito.Mockito;
 import sample.application.api.feature.customer.Customer;
 import sample.application.api.feature.product.AbstractServiceTest;
 import sample.application.api.feature.product.Product;
-import sample.application.api.feature.product.ProdutoRepository;
+import sample.application.api.feature.product.ProductRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -31,12 +31,11 @@ class PurchaseServiceTest extends AbstractServiceTest {
     private PurchaseService service;
 
     /**
-     * @Autowired é usada apenas pra instanciar objetos reais
-     * @Mock cria um objeto fake, um fantoche que
-     * você define como ele vai se comportar
+     * @Autowired is only used to instantiate real objects
+     * @Mock creates a fake object, a puppet that you define how it will behave
      */
     @Mock
-    private ProdutoRepository produtoRepository;
+    private ProductRepository productRepository;
 
     @Mock
     private PurchaseRepository repository;
@@ -46,9 +45,9 @@ class PurchaseServiceTest extends AbstractServiceTest {
 
     private void configurarMockProdutoRepository(Product prod) {
         final Long id = Objects.requireNonNullElse(prod.getId(), 0L);
-        // Mockito é a biblioteca de mock incluída no Spring
+        // Mockito is the mock library included in Spring.
         Mockito
-            .when(produtoRepository.findById(id))
+            .when(productRepository.findById(id))
             .thenReturn(Optional.of(prod));
     }
 

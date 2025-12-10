@@ -11,13 +11,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ProductServiceTest extends AbstractServiceTest {
     /**
-     * Cria um objeto service real e injeta nele os mocks criados com a anotação @Mock.
+     * Creates a real service object and injects into it the mocks created with the @Mock annotation.
      */
     @InjectMocks
-    private ProdutoService service;
+    private ProductService service;
 
-    @Mock // cria um objeto fake (falso, uma marionete) para simular o comportamento de um objeto real
-    private ProdutoRepository repository;
+    @Mock // Creates a fake object (a puppet) to simulate the behavior of a real object.
+    private ProductRepository repository;
 
     @Test
     void deleteById() {

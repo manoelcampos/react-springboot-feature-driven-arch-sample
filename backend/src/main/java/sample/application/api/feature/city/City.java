@@ -56,7 +56,7 @@ public class City extends AbstractBaseModel {
         return name;
     }
 
-    public void setName(String descricao) {
+    public void setName(final String descricao) {
         System.out.println("Setting city.name: " + descricao);
 
         if(Objects.requireNonNullElse(descricao, "").isBlank())

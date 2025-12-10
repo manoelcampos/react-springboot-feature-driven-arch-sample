@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
@@ -23,22 +22,14 @@ public class AppConfig implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT");
     }
 
-    /**
-     * Define o idioma da aplicação e assim permite que mensagens de erro
-     * sejam traduzidas. Mensagens de erro do Hibernate Validation
-     * são traduzidas no arquivo ValidationMessages_pt_BR.properties.
-     * @return
-     */
+    /// Define the application language and thus allow error messages
+    /// to be translated. Hibernate Validation error messages
+    /// are translated in the ValidationMessages_pt_BR.properties file.
+    /// @return
     @Bean
     public LocaleResolver localeResolver() {
         final var slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(new Locale("pt", "BR"));
+        slr.setDefaultLocale(Locale.of("pt", "BR"));
         return slr;
-    }
-
-    @Override
-    public void addInterceptors(final InterceptorRegistry registry) {
-//        registry.addInterceptor(new JsonInterceptor())
-//                .addPathPatterns("/vigencia-plano-trabalho/**");
     }
 }

@@ -6,8 +6,8 @@ import sample.application.api.shared.controller.AbstractController;
 
 @RestController
 @RequestMapping("/product")
-public class ProdutoController extends AbstractController<Product, ProductDTO, ProdutoRepository, ProdutoService> {
-    public ProdutoController(final ProdutoService service) {
+public class ProductController extends AbstractController<Product, ProductDTO, ProductRepository, ProductService> {
+    public ProductController(final ProductService service) {
         super(ProductDTO.class, service);
     }
 }

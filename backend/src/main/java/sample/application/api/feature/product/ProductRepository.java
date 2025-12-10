@@ -6,6 +6,6 @@ import sample.application.api.shared.EntityRepository;
 import java.util.List;
 
 @Repository
-public interface ProdutoRepository extends EntityRepository<Product> {
+public interface ProductRepository extends EntityRepository<Product> {
     List<Product> findByDescriptionLike(String description);
 }

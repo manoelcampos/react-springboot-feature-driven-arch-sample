@@ -10,17 +10,16 @@ import java.util.Optional;
 public interface CustomerRepository extends EntityRepository<Customer> {
     Optional<Customer> findBySocialSecurityNumber(String socialSecurityNumber);
 
-    /// {@return lista de clientes cujo name contenha um determinado valor parcial}
+    /// {@return list of clients whose name contains a given partial value}
     /// Name can be, for instance:
-    /// - "Manoel%" para buscar todos os clientes cujo name comece com "Manoel".
-    /// - "%Campos%" para buscar todos os clientes cujo name contenha "Campos" em qualquer parte.
-    /// - "%Silva" para buscar todos os clientes cujo name termine com "Silva".
+    /// - "Manoel%" to search for all clients whose name begins with "Manoel".
+    /// - "%Campos%" to search for all clients whose name contains "Campos" anywhere.
+    /// - "%Silva" to search for all clients whose name ends with "Silva".
     ///
-    /// @param name name do cliente, que pode conter um % em qualquer parte, para fazer uma busca parcial, como:
-    ///
+    /// @param name client name, which can contain a % anywhere, to perform a partial search, such as:
     List<Customer> findByNameLike(String name);
 
-    /// {@return uma lista de clientes de uma determinada cidade}
-    /// @param cityId ID da cidade para localizar os clientes.
+    /// {@return a list of customers from a given city}
+    /// @param cityId ID of the city to locate the customers.
     List<Customer> findByCityId(long cityId);
 }

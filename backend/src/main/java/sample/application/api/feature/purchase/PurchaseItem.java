@@ -19,10 +19,10 @@ public class PurchaseItem extends AbstractBaseModel {
     public Purchase purchase;
 
     /**
-     * Produto sendo vendido.
-     * O valor do campo é ignorado em alterações (updates).
-     * Se for feita uma alteração em algum item, o valor deste atributo é desconsiderado.
-     * Depois da venda inserida, o produto não pode ser alterada.
+     * Product being sold.
+     * The field value is ignored in updates.
+     * If a change is made to any item, the value of this attribute is disregarded.
+     * After the sale is entered, the product cannot be changed.
      */
     @NotNull @ManyToOne
     @JoinColumn(updatable = false, foreignKey = @ForeignKey(name = ConstraintKeys.FK_ORDER_ITEM__PRODUCT))
@@ -30,10 +30,10 @@ public class PurchaseItem extends AbstractBaseModel {
     public Product product;
 
     /**
-     * Quantidade de itens do produto vendidos.
-     * O valor do campo é ignorado em alterações (updates).
-     * Se for feita uma alteração em algum item, o valor deste atributo é desconsiderado.
-     * Depois da venda inserida, a quantidade não pode ser alterada.
+     * Quantity of product items sold.
+     * The field value is ignored in updates.
+     * If a change is made to any item, the value of this attribute is disregarded.
+     * After the sale is entered, the quantity cannot be changed.
      */
     @NotNull @Min(1) @Column(updatable = false)
     public int quant;
