@@ -14,7 +14,7 @@
     <name>springboot-reusable-arch-sample</name>
 
     <properties>
-        <java.version>23</java.version>
+        <java.version>25</java.version>
         <maven.compiler.version>3.14.0</maven.compiler.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <typescriptgenerator.version>3.2.1263</typescriptgenerator.version>
