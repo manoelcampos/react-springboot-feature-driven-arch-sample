@@ -179,7 +179,7 @@ public abstract class AbstractController<T extends AbstractBaseModel, D, R exten
 
     /**
      * Cria um DTORecord vazio, apenas para permitir chamar o método {@link DTORecord#fromModel(Object)}
-     * para permtir criar posteriormente um DTO a partir de uma {@link BaseModel}.
+     * para permitir criar posteriormente um DTO a partir de uma {@link BaseModel}.
      * @return o DTORecord vazio ou null se o tipo genérico D não for um {@link DTORecord}.
      */
     @SuppressWarnings("unchecked")
